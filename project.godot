@@ -8,14 +8,38 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "Asteroid",
+"language": "GDScript",
+"path": "res://scripts/asteroid.gd"
+}, {
+"base": "Area2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://scripts/player.gd"
+}, {
+"base": "Area2D",
+"class": "Shot",
+"language": "GDScript",
+"path": "res://scripts/shot.gd"
+}, {
+"base": "Node2D",
+"class": "Stage",
+"language": "GDScript",
+"path": "res://scripts/stage.gd"
+} ]
 _global_script_class_icons={
-
+"Asteroid": "",
+"Player": "",
+"Shot": "",
+"Stage": ""
 }
 
 [application]
 
 config/name="godot24h_space_shooter"
+run/main_scene="res://stage.tscn"
 config/icon="res://icon.png"
 
 [display]
