@@ -24,11 +24,12 @@ func _ready() -> void:
 	$spawn_timer.connect("timeout", self, "_on_spawn_timer_timeout")
 
 func _input(event : InputEvent) -> void:
-	if Input.is_key_pressed(KEY_ESCAPE):
+	if event.is_action("quit_game"):
 		get_tree().quit()
-	if is_game_over and Input.is_key_pressed(KEY_ENTER):
+	if is_game_over and event.is_action("restart_game"):
 		get_tree().change_scene("res://stage.tscn")
 		
+	
 func _on_player_destroyed() -> void:
 	$ui/retry.show()
 	is_game_over = true

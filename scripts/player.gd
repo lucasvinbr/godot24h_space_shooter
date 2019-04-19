@@ -26,14 +26,15 @@ func _ready() -> void:
 
 func _process(delta : float) -> void:
 	input_dir = Vector2.ZERO
-	if Input.is_key_pressed(KEY_UP):
+	if Input.is_action_pressed("move_up"):
 		input_dir.y -= 1.0
-	if Input.is_key_pressed(KEY_DOWN):
+	if Input.is_action_pressed("move_down"):
 		input_dir.y += 1.0
-	if Input.is_key_pressed(KEY_LEFT):
+	if Input.is_action_pressed("move_left"):
 		input_dir.x -= 1.0
-	if Input.is_key_pressed(KEY_RIGHT):
+	if Input.is_action_pressed("move_right"):
 		input_dir.x += 1.0
+	input_dir = input_dir.normalized()
 	
 	position += input_dir * (MOVE_SPEED * delta)
 	
@@ -48,7 +49,7 @@ func _process(delta : float) -> void:
 		position.y = SCREEN_HEIGHT - SHIP_HALFSIZE
 		
 	#shooting!
-	if Input.is_key_pressed(KEY_SPACE) && can_shoot:
+	if Input.is_action_pressed("fire") && can_shoot:
 		var new_shot_upper : Node = shot_scene.instance()
 		var new_shot_lower : Node = shot_scene.instance()
 		new_shot_upper.position = position + Vector2(SHIP_HALFSIZE, SHOT_Y_OFFSET)
