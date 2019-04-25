@@ -24,8 +24,6 @@ func _ready() -> void:
 	$spawn_timer.connect("timeout", self, "_on_spawn_timer_timeout")
 
 func _input(event : InputEvent) -> void:
-	if event.is_action("quit_game"):
-		get_tree().quit()
 	if is_game_over and event.is_action("restart_game"):
 		get_tree().change_scene("res://stage.tscn")
 		

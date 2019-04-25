@@ -1,13 +1,15 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/stage.gd" type="Script" id=1]
 [ext_resource path="res://sprites/16px_BG.png" type="Texture" id=2]
 [ext_resource path="res://scripts/background.gd" type="Script" id=3]
 [ext_resource path="res://player.tscn" type="PackedScene" id=4]
-[ext_resource path="res://font/unifont.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://ui/game_theme.tres" type="Theme" id=5]
+[ext_resource path="res://font/unifont.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://scripts/quit_confirm_box.gd" type="Script" id=7]
 
 [sub_resource type="DynamicFont" id=1]
-font_data = ExtResource( 5 )
+font_data = ExtResource( 6 )
 
 [node name="stage" type="Node2D"]
 script = ExtResource( 1 )
@@ -36,7 +38,7 @@ __meta__ = {
 position = Vector2( 37.063, 90 )
 
 [node name="ui" type="CanvasLayer" parent="."]
-editor/display_folded = true
+pause_mode = 2
 
 [node name="score" type="Label" parent="ui"]
 anchor_right = 1.0
@@ -44,6 +46,7 @@ margin_left = 10.0
 margin_top = 10.0
 margin_right = -280.0
 margin_bottom = 14.0
+theme = ExtResource( 5 )
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0.847059, 0.862745, 0.847059, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -57,6 +60,7 @@ margin_top = 73.0
 margin_right = 50.0
 margin_bottom = 72.0
 rect_pivot_offset = Vector2( 109.84, 17 )
+theme = ExtResource( 5 )
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0.847059, 0.862745, 0.847059, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -66,3 +70,23 @@ align = 1
 valign = 1
 uppercase = true
 
+[node name="quit_box_container" type="CenterContainer" parent="ui"]
+anchor_right = 1.0
+margin_bottom = 180.0
+theme = ExtResource( 5 )
+
+[node name="quit_confirm_box" type="ConfirmationDialog" parent="ui/quit_box_container"]
+visible = true
+margin_left = 60.0
+margin_top = 55.0
+margin_right = 260.0
+margin_bottom = 125.0
+theme = ExtResource( 5 )
+popup_exclusive = true
+window_title = "CONFIRM"
+dialog_text = "QUIT?"
+script = ExtResource( 7 )
+
+[connection signal="about_to_show" from="ui/quit_box_container/quit_confirm_box" to="ui/quit_box_container/quit_confirm_box" method="_on_quit_confirm_box_about_to_show"]
+[connection signal="confirmed" from="ui/quit_box_container/quit_confirm_box" to="ui/quit_box_container/quit_confirm_box" method="_on_quit_confirm_box_confirmed"]
+[connection signal="popup_hide" from="ui/quit_box_container/quit_confirm_box" to="ui/quit_box_container/quit_confirm_box" method="_on_quit_confirm_box_popup_hide"]
