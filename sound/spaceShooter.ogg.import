@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/spaceShooter.ogg-8463c89d17c738a675e17a5c4854b597.oggstr"
+
+[deps]
+
+source_file="res://sound/spaceShooter.ogg"
+dest_files=[ "res://.import/spaceShooter.ogg-8463c89d17c738a675e17a5c4854b597.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

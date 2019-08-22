@@ -18,11 +18,14 @@ var explode_scene : PackedScene = preload("res://explosion.tscn")
 
 var can_shoot : bool = true
 
+var shotSnd : AudioStreamPlayer
+
 signal destroyed
 
 func _ready() -> void:
 	stage_node = get_parent()
-	shoot_timer = $reload_timer
+	shoot_timer = $reload_timer as Timer
+	shotSnd = $shotSnd as AudioStreamPlayer
 
 func _process(delta : float) -> void:
 	input_dir = Vector2.ZERO
@@ -50,14 +53,19 @@ func _process(delta : float) -> void:
 		
 	#shooting!
 	if Input.is_action_pressed("fire") && can_shoot:
-		var new_shot_upper : Node = shot_scene.instance()
-		var new_shot_lower : Node = shot_scene.instance()
-		new_shot_upper.position = position + Vector2(SHIP_HALFSIZE, SHOT_Y_OFFSET)
-		new_shot_lower.position = position + Vector2(SHIP_HALFSIZE, -SHOT_Y_OFFSET)
-		stage_node.add_child(new_shot_upper)
-		stage_node.add_child(new_shot_lower)
-		can_shoot = false
-		shoot_timer.start()
+		shoot()
+
+
+func shoot() -> void:
+	var new_shot_upper : Node = shot_scene.instance()
+	var new_shot_lower : Node = shot_scene.instance()
+	new_shot_upper.position = position + Vector2(SHIP_HALFSIZE, SHOT_Y_OFFSET)
+	new_shot_lower.position = position + Vector2(SHIP_HALFSIZE, -SHOT_Y_OFFSET)
+	stage_node.add_child(new_shot_upper)
+	stage_node.add_child(new_shot_lower)
+	can_shoot = false
+	shotSnd.play()
+	shoot_timer.start()
 
 func _on_reload_timer_timeout() -> void:
 	can_shoot = true

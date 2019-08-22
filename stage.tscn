@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/stage.gd" type="Script" id=1]
 [ext_resource path="res://sprites/16px_BG.png" type="Texture" id=2]
@@ -7,9 +7,15 @@
 [ext_resource path="res://ui/game_theme.tres" type="Theme" id=5]
 [ext_resource path="res://font/unifont.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://scripts/quit_confirm_box.gd" type="Script" id=7]
+[ext_resource path="res://sound/spaceShooter.ogg" type="AudioStream" id=8]
+[ext_resource path="res://sound/died.wav" type="AudioStream" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 6 )
+
+[sub_resource type="AudioStreamRandomPitch" id=2]
+audio_stream = ExtResource( 9 )
+random_pitch = 1.5
 
 [node name="stage" type="Node2D"]
 script = ExtResource( 1 )
@@ -76,7 +82,6 @@ margin_bottom = 180.0
 theme = ExtResource( 5 )
 
 [node name="quit_confirm_box" type="ConfirmationDialog" parent="ui/quit_box_container"]
-visible = true
 margin_left = 60.0
 margin_top = 55.0
 margin_right = 260.0
@@ -87,6 +92,13 @@ window_title = "CONFIRM"
 dialog_text = "QUIT?"
 script = ExtResource( 7 )
 
+[node name="bgm" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = -8.433
+autoplay = true
+
+[node name="playerLostSnd" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 2 )
 [connection signal="about_to_show" from="ui/quit_box_container/quit_confirm_box" to="ui/quit_box_container/quit_confirm_box" method="_on_quit_confirm_box_about_to_show"]
 [connection signal="confirmed" from="ui/quit_box_container/quit_confirm_box" to="ui/quit_box_container/quit_confirm_box" method="_on_quit_confirm_box_confirmed"]
 [connection signal="popup_hide" from="ui/quit_box_container/quit_confirm_box" to="ui/quit_box_container/quit_confirm_box" method="_on_quit_confirm_box_popup_hide"]

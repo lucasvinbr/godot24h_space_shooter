@@ -16,10 +16,15 @@ var score_label : Label
 
 var spawn_timer : Timer
 
+var bgm : AudioStreamPlayer
+var diedSnd : AudioStreamPlayer
+
 func _ready() -> void:
 	randomize()
-	score_label = $ui/score
-	spawn_timer = $spawn_timer
+	score_label = $ui/score as Label
+	spawn_timer = $spawn_timer as Timer
+	bgm = $bgm as AudioStreamPlayer
+	diedSnd = $playerLostSnd as AudioStreamPlayer
 	$player.connect("destroyed", self, "_on_player_destroyed")
 	$spawn_timer.connect("timeout", self, "_on_spawn_timer_timeout")
 
@@ -29,11 +34,13 @@ func _input(event : InputEvent) -> void:
 		
 	
 func _on_player_destroyed() -> void:
-	$ui/retry.show()
+	($ui/retry as Label).show()
+	bgm.stop()
+	diedSnd.play()
 	is_game_over = true
 	
 func _on_spawn_timer_timeout() -> void:
-	var new_asteroid : Asteroid = asteroid_scene.instance()
+	var new_asteroid : Asteroid = asteroid_scene.instance() as Asteroid
 	new_asteroid.position = Vector2(SCREEN_WIDTH + ASTEROID_SPAWN_MARGIN, rand_range(0, SCREEN_HEIGHT))
 	new_asteroid.connect("score", self, "_on_player_score")
 	new_asteroid.move_speed += score
